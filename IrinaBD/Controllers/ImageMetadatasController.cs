@@ -12,6 +12,7 @@ using System.IO;
 
 namespace IrinaBD.Controllers
 {
+  //[Route("imagemetadatas")]
   public class ImageMetadatasController : Controller
   {
     private readonly ApplicationDbContext _context;
@@ -22,6 +23,7 @@ namespace IrinaBD.Controllers
     }
 
     // GET: ImageMetadatas
+ 
     public async Task<IActionResult> Index()
     {
       return View(await _context.imageMetadatas.ToListAsync());
@@ -67,7 +69,8 @@ namespace IrinaBD.Controllers
       }
       return View(imageMetadata);
     }
-    [HttpPost("fileupload")]
+    [HttpPost]
+    [Route("fileupload")]
     public async Task<IActionResult> UploadPhoto(IFormFile photo)
     {
      
@@ -171,5 +174,21 @@ namespace IrinaBD.Controllers
         {
             return _context.imageMetadatas.Any(e => e.Id == id);
         }
+    [HttpGet]
+    [ActionName("getimages")]
+    public FileContentResult GetImages(int skip, int take)
+    {
+      var image = _context.imageMetadatas
+          .FirstOrDefault();
+
+      if (image != null)
+      {
+        return File(image.Image, image.ContentType);
+      }
+      else
+      {
+        return null;
+      }
     }
+  }
 }

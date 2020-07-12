@@ -1,0 +1,12 @@
+﻿@model List<Guid>
+@{
+  ViewData["Title"] = "index";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>index</h1>
+@foreach (var id in @Model)
+{
+  @Html.Partial("Image",id);
+}
+
