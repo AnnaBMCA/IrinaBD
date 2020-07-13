@@ -69,26 +69,7 @@ namespace IrinaBD.Controllers
       }
       return View(imageMetadata);
     }
-    [HttpPost]
-    [Route("fileupload")]
-    public async Task<IActionResult> UploadPhoto(IFormFile photo)
-    {
-     
-      using (var stream = new MemoryStream())
-      {
-        await photo.CopyToAsync(stream);
-        ImageMetadata imageMetadata = new ImageMetadata()
-        {
-          Id = Guid.NewGuid(),
-          OriginalFileName = photo.Name,
-          ContentType = photo.ContentType,
-          Image = stream.ToArray()
-        };
-        _context.Add(imageMetadata);
-        _context.SaveChanges();
-      }
-      return RedirectToAction(nameof(Index));
-    }
+    
 
         // GET: ImageMetadatas/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
@@ -174,21 +155,6 @@ namespace IrinaBD.Controllers
         {
             return _context.imageMetadatas.Any(e => e.Id == id);
         }
-    [HttpGet]
-    [ActionName("getimages")]
-    public FileContentResult GetImages(int skip, int take)
-    {
-      var image = _context.imageMetadatas
-          .FirstOrDefault();
-
-      if (image != null)
-      {
-        return File(image.Image, image.ContentType);
-      }
-      else
-      {
-        return null;
-      }
-    }
+    
   }
 }
